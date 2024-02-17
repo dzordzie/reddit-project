@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reddit</title>
+</head>
+<body>
+    <a th:href="|/submit?username=${username}|">Submit new post</a>
+    <a href="/login">Login</a>
+    <a href="/newUser">SignIn</a>
+
+    <h1>Trending posts</h1>
+    <p th:text="|User: ${username}|"></p>
+
+    <table>
+        <tbody>
+            <tr th:each="post: ${postsOnPage}">
+                <td th:text="${post.votes}"></td>
+                <td><a th:href="|/upVote?postId=${post.id}&username=${username}|">+</a></td>
+                <td><a th:href="|/downVote?postId=${post.id}&username=${username}|">-</a></td>
+                <td><a th:href="${post.postPath}" th:text="${post.postTitle}"></a></td>
+                <td th:text="${post.localDate}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:unless="${currentPage <= 0}" th:href="|/?pageNumber=${currentPage - 1}|">Previous page</a>
+    <a th:if="${allPosts - (currentPage + 1) * 10 > 0}" th:href="|/?pageNumber=${currentPage + 1}|">Next page</a>
+</body>
+</html>
